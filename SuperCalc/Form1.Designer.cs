@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridViewPlace = new DataGridView();
+            dataGridViewTable = new DataGridView();
             buttonSave = new Button();
             textBoxCommandLine = new TextBox();
             buttonLoad = new Button();
@@ -37,16 +37,17 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewPlace).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewTable).BeginInit();
             SuspendLayout();
             // 
-            // dataGridViewPlace
+            // dataGridViewTable
             // 
-            dataGridViewPlace.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewPlace.Location = new Point(12, 41);
-            dataGridViewPlace.Name = "dataGridViewPlace";
-            dataGridViewPlace.Size = new Size(1023, 564);
-            dataGridViewPlace.TabIndex = 0;
+            dataGridViewTable.BackgroundColor = Color.FromArgb(64, 64, 64);
+            dataGridViewTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewTable.Location = new Point(12, 41);
+            dataGridViewTable.Name = "dataGridViewTable";
+            dataGridViewTable.Size = new Size(1023, 564);
+            dataGridViewTable.TabIndex = 0;
             // 
             // buttonSave
             // 
@@ -56,6 +57,7 @@
             buttonSave.TabIndex = 1;
             buttonSave.Text = "Сохранить";
             buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
             // 
             // textBoxCommandLine
             // 
@@ -73,6 +75,7 @@
             buttonLoad.TabIndex = 3;
             buttonLoad.Text = "Загрузить";
             buttonLoad.UseVisualStyleBackColor = true;
+            buttonLoad.Click += buttonLoad_Click;
             // 
             // buttonUse
             // 
@@ -119,6 +122,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 14F);
+            label3.ForeColor = Color.White;
             label3.Location = new Point(1160, 44);
             label3.Name = "label3";
             label3.Size = new Size(16, 25);
@@ -139,18 +143,20 @@
             Controls.Add(buttonLoad);
             Controls.Add(textBoxCommandLine);
             Controls.Add(buttonSave);
-            Controls.Add(dataGridViewPlace);
+            Controls.Add(dataGridViewTable);
+            ForeColor = SystemColors.ControlText;
+            KeyPreview = true;
             Name = "Form1";
             Text = "Form1";
-            Load += Form1_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridViewPlace).EndInit();
+            KeyDown += Form1_KeyDown;
+            ((System.ComponentModel.ISupportInitialize)dataGridViewTable).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridViewPlace;
+        private DataGridView dataGridViewTable;
         private Button buttonSave;
         private TextBox textBoxCommandLine;
         private Button buttonLoad;
