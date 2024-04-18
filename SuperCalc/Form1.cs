@@ -1,11 +1,15 @@
 using System.Windows.Forms;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.VisualBasic;
 
 namespace SuperCalc
 {
     public partial class Form1 : Form
     {
+        private JSONRepository _repository;
+        public event Action<string> PathChanged;
+
         public Form1()
         {
             InitializeComponent();
@@ -13,6 +17,8 @@ namespace SuperCalc
             dataGridViewTable.ColumnCount = 3;
             dataGridViewTable.RowCount = 3;
 
+            _repository = new JSONRepository();
+            PathChanged += _repository.OnPathChanged;
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -35,22 +41,51 @@ namespace SuperCalc
             }
         }
 
-        private void buttonLoad_Click(object sender, EventArgs e)
+        private void toolStripMenuItemSave_Click(object sender, EventArgs e)
         {
-            string[,] data = new string[,]
+            string[,] data = new string[dataGridViewTable.RowCount, dataGridViewTable.ColumnCount];
+
+            for (int i = 0; i < dataGridViewTable.RowCount; i++)
+            {
+                for (int j = 0; dataGridViewTable.ColumnCount > j; j++)
                 {
-                { "q","w","e","r" },
-                { "qq", "ww", "ee", "rr" },
-                { "qqq", "www", "eee", "rrr" },
-                {"qqqq","wwww","eeee","rrrr" },
-                {"qqqqq","wwwww","eeeee","rrrrr" },
-                {"1", "2", "4", "5" }
-                };
-            if (dataGridViewTable.ColumnCount < data.GetLength(1) && dataGridViewTable.RowCount < data.GetLength(0))
+                    string temp = Convert.ToString(dataGridViewTable.Rows[i].Cells[j].Value ?? "");
+                    data[i, j] = temp;
+                }
+            }
+
+            if (string.IsNullOrEmpty(_repository.PathName))
+            {
+                SaveAs();
+
+                if (string.IsNullOrEmpty(_repository.PathName)) return;
+            }
+
+            _repository.Save(data);
+        }
+
+        private void toolStripMenuItemOpen_Click(object sender, EventArgs e)
+        { 
+            Open();
+
+            string[,] data = _repository.GetData();
+            DisplayTable(data);
+        }
+
+        private void toolStripMenuItemSaveAs_Click(object sender, EventArgs e)
+        {
+            SaveAs();
+        }
+
+        private void DisplayTable(string[,] data)
+        {
+            if (dataGridViewTable.ColumnCount < data.GetLength(1)
+                && dataGridViewTable.RowCount < data.GetLength(0))
             {
                 dataGridViewTable.ColumnCount = data.GetLength(1);
                 dataGridViewTable.RowCount = data.GetLength(0);
             }
+
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -60,16 +95,39 @@ namespace SuperCalc
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void SaveAs()
         {
-            string[,] data = new string[dataGridViewTable.RowCount, dataGridViewTable.ColumnCount];
-            for (int i = 0; i < dataGridViewTable.RowCount; i++)
+            SaveFileDialog fileDialog = new SaveFileDialog()
             {
-                for (int j = 0; dataGridViewTable.ColumnCount > j; j++)
-                {
-                    string temp = Convert.ToString(dataGridViewTable.Rows[i].Cells[j].Value ?? "");
-                    data[i, j] = temp;
-                }
+                AddExtension = true,
+                Filter = "JSON | *.json",
+            };
+
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string pathName = fileDialog.FileName;
+                PathChanged?.Invoke(pathName);
+
+                if (!File.Exists(pathName))
+                    File.Create(pathName).Close();
+            }
+        }
+
+        private void Open()
+        {
+            //dataGridViewTable.Rows.Clear();
+
+            OpenFileDialog fileDialog = new OpenFileDialog()
+            {
+                AddExtension = true,
+                Filter = "JSON | *.json",
+            };
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string pathName = fileDialog.FileName;
+                PathChanged?.Invoke(pathName);
             }
         }
     }

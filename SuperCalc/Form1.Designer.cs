@@ -29,15 +29,18 @@
         private void InitializeComponent()
         {
             dataGridViewTable = new DataGridView();
-            buttonSave = new Button();
             textBoxCommandLine = new TextBox();
-            buttonLoad = new Button();
             buttonUse = new Button();
             textBox1 = new TextBox();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
+            menuStrip1 = new MenuStrip();
+            toolStripMenuItemOpen = new ToolStripMenuItem();
+            toolStripMenuItemSave = new ToolStripMenuItem();
+            toolStripMenuItemSaveAs = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridViewTable).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridViewTable
@@ -49,38 +52,18 @@
             dataGridViewTable.Size = new Size(1023, 564);
             dataGridViewTable.TabIndex = 0;
             // 
-            // buttonSave
-            // 
-            buttonSave.Location = new Point(12, 12);
-            buttonSave.Name = "buttonSave";
-            buttonSave.Size = new Size(75, 23);
-            buttonSave.TabIndex = 1;
-            buttonSave.Text = "Сохранить";
-            buttonSave.UseVisualStyleBackColor = true;
-            buttonSave.Click += buttonSave_Click;
-            // 
             // textBoxCommandLine
             // 
             textBoxCommandLine.Font = new Font("Segoe UI", 14F);
-            textBoxCommandLine.Location = new Point(1041, 41);
+            textBoxCommandLine.Location = new Point(1041, 69);
             textBoxCommandLine.Name = "textBoxCommandLine";
             textBoxCommandLine.Size = new Size(113, 32);
             textBoxCommandLine.TabIndex = 2;
             // 
-            // buttonLoad
-            // 
-            buttonLoad.Location = new Point(93, 12);
-            buttonLoad.Name = "buttonLoad";
-            buttonLoad.Size = new Size(75, 23);
-            buttonLoad.TabIndex = 3;
-            buttonLoad.Text = "Загрузить";
-            buttonLoad.UseVisualStyleBackColor = true;
-            buttonLoad.Click += buttonLoad_Click;
-            // 
             // buttonUse
             // 
             buttonUse.Font = new Font("Segoe UI", 14F);
-            buttonUse.Location = new Point(1041, 79);
+            buttonUse.Location = new Point(1041, 107);
             buttonUse.Name = "buttonUse";
             buttonUse.Size = new Size(250, 32);
             buttonUse.TabIndex = 4;
@@ -90,7 +73,7 @@
             // textBox1
             // 
             textBox1.Font = new Font("Segoe UI", 14F);
-            textBox1.Location = new Point(1178, 41);
+            textBox1.Location = new Point(1178, 69);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(113, 32);
             textBox1.TabIndex = 5;
@@ -101,7 +84,7 @@
             label1.BackColor = Color.FromArgb(64, 64, 64);
             label1.Font = new Font("Segoe UI", 14F);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(1041, 13);
+            label1.Location = new Point(1041, 41);
             label1.Name = "label1";
             label1.Size = new Size(113, 25);
             label1.TabIndex = 6;
@@ -112,7 +95,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 14F);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(1178, 13);
+            label2.Location = new Point(1178, 41);
             label2.Name = "label2";
             label2.Size = new Size(96, 25);
             label2.TabIndex = 7;
@@ -123,11 +106,41 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 14F);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(1160, 44);
+            label3.Location = new Point(1160, 72);
             label3.Name = "label3";
             label3.Size = new Size(16, 25);
             label3.TabIndex = 8;
             label3.Text = ":";
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItemOpen, toolStripMenuItemSave, toolStripMenuItemSaveAs });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1296, 24);
+            menuStrip1.TabIndex = 9;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // toolStripMenuItemOpen
+            // 
+            toolStripMenuItemOpen.Name = "toolStripMenuItemOpen";
+            toolStripMenuItemOpen.Size = new Size(66, 20);
+            toolStripMenuItemOpen.Text = "Открыть";
+            toolStripMenuItemOpen.Click += toolStripMenuItemOpen_Click;
+            // 
+            // toolStripMenuItemSave
+            // 
+            toolStripMenuItemSave.Name = "toolStripMenuItemSave";
+            toolStripMenuItemSave.Size = new Size(78, 20);
+            toolStripMenuItemSave.Text = "Сохранить";
+            toolStripMenuItemSave.Click += toolStripMenuItemSave_Click;
+            // 
+            // toolStripMenuItemSaveAs
+            // 
+            toolStripMenuItemSaveAs.Name = "toolStripMenuItemSaveAs";
+            toolStripMenuItemSaveAs.Size = new Size(108, 20);
+            toolStripMenuItemSaveAs.Text = "Сохранить как...";
+            toolStripMenuItemSaveAs.Click += toolStripMenuItemSaveAs_Click;
             // 
             // Form1
             // 
@@ -140,16 +153,18 @@
             Controls.Add(label1);
             Controls.Add(textBox1);
             Controls.Add(buttonUse);
-            Controls.Add(buttonLoad);
             Controls.Add(textBoxCommandLine);
-            Controls.Add(buttonSave);
             Controls.Add(dataGridViewTable);
+            Controls.Add(menuStrip1);
             ForeColor = SystemColors.ControlText;
             KeyPreview = true;
+            MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Form1";
             KeyDown += Form1_KeyDown;
             ((System.ComponentModel.ISupportInitialize)dataGridViewTable).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -157,13 +172,15 @@
         #endregion
 
         private DataGridView dataGridViewTable;
-        private Button buttonSave;
         private TextBox textBoxCommandLine;
-        private Button buttonLoad;
         private Button buttonUse;
         private TextBox textBox1;
         private Label label1;
         private Label label2;
         private Label label3;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem toolStripMenuItemSave;
+        private ToolStripMenuItem toolStripMenuItemOpen;
+        private ToolStripMenuItem toolStripMenuItemSaveAs;
     }
 }
