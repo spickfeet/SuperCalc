@@ -60,7 +60,7 @@ namespace SuperCalc
 
             if (string.IsNullOrEmpty(_repository.PathName))
             {
-                SaveAs();
+                TryChoosePath();
 
                 if (string.IsNullOrEmpty(_repository.PathName)) return;
             }
@@ -82,7 +82,10 @@ namespace SuperCalc
 
         private void toolStripMenuItemSaveAs_Click(object sender, EventArgs e)
         {
-            SaveAs();
+            TryChoosePath();
+
+            ReadData();
+            _repository.Save(_data);
         }
 
         private void DisplayTable(string[,] data)
@@ -103,14 +106,13 @@ namespace SuperCalc
             }
         }
 
-        private void SaveAs()
+        private bool TryChoosePath()
         {
             SaveFileDialog fileDialog = new SaveFileDialog()
             {
                 AddExtension = true,
                 Filter = "JSON | *.json",
             };
-
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -119,15 +121,14 @@ namespace SuperCalc
 
                 if (!File.Exists(pathName))
                     File.Create(pathName).Close();
-                ReadData();
-                _repository.Save(_data);
+
+                return true;
             }
+            else { return false; }
         }
 
         private void Open()
         {
-            //dataGridViewTable.Rows.Clear();
-
             OpenFileDialog fileDialog = new OpenFileDialog()
             {
                 AddExtension = true,
