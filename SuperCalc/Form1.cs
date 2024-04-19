@@ -9,6 +9,7 @@ namespace SuperCalc
     {
         private JSONRepository _repository;
         public event Action<string> PathChanged;
+        private string[,] _data;
 
         public Form1()
         {
@@ -40,19 +41,22 @@ namespace SuperCalc
                 dataGridViewTable.CurrentCell = dataGridViewTable[dataGridViewTable.ColumnCount - 1, dataGridViewTable.RowCount - 1];
             }
         }
-
-        private void toolStripMenuItemSave_Click(object sender, EventArgs e)
+        private void ReadData()
         {
-            string[,] data = new string[dataGridViewTable.RowCount, dataGridViewTable.ColumnCount];
+            _data = new string[dataGridViewTable.RowCount, dataGridViewTable.ColumnCount];
 
             for (int i = 0; i < dataGridViewTable.RowCount; i++)
             {
                 for (int j = 0; dataGridViewTable.ColumnCount > j; j++)
                 {
                     string temp = Convert.ToString(dataGridViewTable.Rows[i].Cells[j].Value ?? "");
-                    data[i, j] = temp;
+                    _data[i, j] = temp;
                 }
             }
+        }
+        private void toolStripMenuItemSave_Click(object sender, EventArgs e)
+        {
+            ReadData();
 
             if (string.IsNullOrEmpty(_repository.PathName))
             {
@@ -61,7 +65,7 @@ namespace SuperCalc
                 if (string.IsNullOrEmpty(_repository.PathName)) return;
             }
 
-            _repository.Save(data);
+            _repository.Save(_data);
         }
 
         private void toolStripMenuItemOpen_Click(object sender, EventArgs e)
@@ -69,6 +73,10 @@ namespace SuperCalc
             Open();
 
             string[,] data = _repository.GetData();
+
+            dataGridViewTable.ColumnCount = data.GetLength(1);
+            dataGridViewTable.RowCount = data.GetLength(0);
+
             DisplayTable(data);
         }
 
@@ -111,6 +119,8 @@ namespace SuperCalc
 
                 if (!File.Exists(pathName))
                     File.Create(pathName).Close();
+                ReadData();
+                _repository.Save(_data);
             }
         }
 
