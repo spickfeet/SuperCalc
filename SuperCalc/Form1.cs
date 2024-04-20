@@ -15,18 +15,38 @@ namespace SuperCalc
         {
             InitializeComponent();
             dataGridViewTable.AllowUserToAddRows = false;
-            dataGridViewTable.ColumnCount = 3;
-            dataGridViewTable.RowCount = 3;
+
+            for (int i = 1; i <= 4; i++)
+            {
+                dataGridViewTable.Columns.Add($"{i}", $"{i}");
+                dataGridViewTable.Rows.Add();
+            }
 
             _repository = new JSONRepository();
             PathChanged += _repository.OnPathChanged;
+        }
+
+        private void ColumnRecount()
+        {
+            for (int i = 0; i < dataGridViewTable.ColumnCount; i++)
+            {
+                dataGridViewTable.Columns[i].HeaderText = (i + 1).ToString();
+
+            }
+        }
+        private void dgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            object head = this.dataGridViewTable.Rows[e.RowIndex].HeaderCell.Value;
+            if (head == null || !head.Equals((e.RowIndex + 1).ToString()))
+                this.dataGridViewTable.Rows[e.RowIndex].HeaderCell.Value =
+                (e.RowIndex + 1).ToString();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab && dataGridViewTable.CurrentCell.ColumnIndex == dataGridViewTable.ColumnCount - 1)
             {
-                dataGridViewTable.Columns.Add("", "");
+                dataGridViewTable.Columns.Add($"{dataGridViewTable.ColumnCount + 1}", $"{dataGridViewTable.ColumnCount + 1}");
             }
             if (e.KeyCode == Keys.Enter && dataGridViewTable.CurrentCell.RowIndex == dataGridViewTable.RowCount - 1)
             {
@@ -87,7 +107,7 @@ namespace SuperCalc
         private void DisplayTable(string[,] data)
         {
             if (dataGridViewTable.ColumnCount < data.GetLength(1)
-                && dataGridViewTable.RowCount < data.GetLength(0))
+                && dataGridViewTable.RowCount < data.GetLength(0))  
             {
                 dataGridViewTable.ColumnCount = data.GetLength(1);
                 dataGridViewTable.RowCount = data.GetLength(0);
@@ -139,6 +159,27 @@ namespace SuperCalc
                 return true;
             }
             else { return false; }
+        }
+
+        private void buttonRemoveRow_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewTable.RowCount > 1)
+            {
+                dataGridViewTable.Rows.RemoveAt(dataGridViewTable.CurrentCell.RowIndex);
+            }
+        }
+
+        private void buttonRemoveColumn_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewTable.ColumnCount > 1)
+            {
+                dataGridViewTable.Columns.RemoveAt(dataGridViewTable.CurrentCell.ColumnIndex);
+            }
+        }
+
+        private void dataGridViewTable_ColumnRemoved(object sender, DataGridViewColumnEventArgs e)
+        {
+            ColumnRecount();
         }
     }
 }
