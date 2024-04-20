@@ -59,18 +59,14 @@ namespace SuperCalc
             ReadData();
 
             if (string.IsNullOrEmpty(_repository.PathName))
-            {
-                TryChoosePath();
-
-                if (string.IsNullOrEmpty(_repository.PathName)) return;
-            }
+                if (TryChoosePath() == false) return;
 
             _repository.Save(_data);
         }
 
         private void toolStripMenuItemOpen_Click(object sender, EventArgs e)
         { 
-            Open();
+            if (TryOpen() == false) return;
 
             string[,] data = _repository.GetData();
 
@@ -82,7 +78,7 @@ namespace SuperCalc
 
         private void toolStripMenuItemSaveAs_Click(object sender, EventArgs e)
         {
-            TryChoosePath();
+            if (TryChoosePath() == false) return;
 
             ReadData();
             _repository.Save(_data);
@@ -127,7 +123,7 @@ namespace SuperCalc
             else { return false; }
         }
 
-        private void Open()
+        private bool TryOpen()
         {
             OpenFileDialog fileDialog = new OpenFileDialog()
             {
@@ -139,7 +135,10 @@ namespace SuperCalc
             {
                 string pathName = fileDialog.FileName;
                 PathChanged?.Invoke(pathName);
+
+                return true;
             }
+            else { return false; }
         }
     }
 }
