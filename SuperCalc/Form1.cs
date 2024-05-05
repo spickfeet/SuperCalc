@@ -2,6 +2,8 @@ using System.Windows.Forms;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.VisualBasic;
+using SuperCalc.Poliz;
+using SuperCalc.AboutForms;
 
 namespace SuperCalc
 {
@@ -85,7 +87,7 @@ namespace SuperCalc
         }
 
         private void toolStripMenuItemOpen_Click(object sender, EventArgs e)
-        { 
+        {
             if (TryOpen() == false) return;
 
             string[,] data = _repository.GetData();
@@ -107,7 +109,7 @@ namespace SuperCalc
         private void DisplayTable(string[,] data)
         {
             if (dataGridViewTable.ColumnCount < data.GetLength(1)
-                && dataGridViewTable.RowCount < data.GetLength(0))  
+                && dataGridViewTable.RowCount < data.GetLength(0))
             {
                 dataGridViewTable.ColumnCount = data.GetLength(1);
                 dataGridViewTable.RowCount = data.GetLength(0);
@@ -180,6 +182,39 @@ namespace SuperCalc
         private void dataGridViewTable_ColumnRemoved(object sender, DataGridViewColumnEventArgs e)
         {
             ColumnRecount();
+        }
+
+        private void buttonUse_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string[] coordinatesOperation = textBoxOper.Text.Split(":");
+                string[] coordinatesResult = textBoxResult.Text.Split(":");
+                dataGridViewTable.Rows[int.Parse(coordinatesResult[0]) - 1].Cells[int.Parse(coordinatesResult[1]) - 1].Value =
+                    RPN.Calculate(dataGridViewTable.Rows[int.Parse(coordinatesOperation[0]) - 1].Cells[int.Parse(coordinatesOperation[1]) - 1].Value.ToString());
+            }
+            catch
+            {
+                MessageBox.Show("Координаты клеток введены неверно");
+            }
+
+        }
+
+        private void buttonSelect_Click(object sender, EventArgs e)
+        {
+            dataGridViewTable.CurrentCell.Value += comboBoxMethods.Text;
+        }
+
+        private void ToolStripMenuItemMethods_Click(object sender, EventArgs e)
+        {
+            AboutMethods aboutMethods = new AboutMethods();
+            aboutMethods.Show();
+        }
+
+        private void ToolStripMenuItemInstructions_Click(object sender, EventArgs e)
+        {
+            AboutInstructions aboutInstructions = new AboutInstructions();
+            aboutInstructions.Show();
         }
     }
 }

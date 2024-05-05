@@ -30,7 +30,6 @@ namespace SuperCalc.Methods
 
         public bool LessMethod(string arg1, string arg2)
         {
-
             if (arg1.Length > arg2.Length)
             {
                 arg2 = arg2.Insert(arg2.Length, new string(' ', arg1.Length - arg2.Length));
