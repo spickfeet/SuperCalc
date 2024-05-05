@@ -186,16 +186,42 @@ namespace SuperCalc
 
         private void buttonUse_Click(object sender, EventArgs e)
         {
+
+            int[] coordinatesOperation = new int[2];
+            int[] coordinatesResult = new int[2];
+
             try
             {
-                string[] coordinatesOperation = textBoxOper.Text.Split(":");
-                string[] coordinatesResult = textBoxResult.Text.Split(":");
-                dataGridViewTable.Rows[int.Parse(coordinatesResult[0]) - 1].Cells[int.Parse(coordinatesResult[1]) - 1].Value =
-                    RPN.Calculate(dataGridViewTable.Rows[int.Parse(coordinatesOperation[0]) - 1].Cells[int.Parse(coordinatesOperation[1]) - 1].Value.ToString());
+                string[] coordinatesOperationString = textBoxOper.Text.Split(":");
+                for (int i = 0; i < 2; i++)
+                {
+                    coordinatesOperation[i] = int.Parse(coordinatesOperationString[i]);
+                }
+
+                string[] coordinatesResultString = textBoxResult.Text.Split(":");
+                for (int i = 0; i < 2; i++)
+                {
+                    coordinatesResult[i] = int.Parse(coordinatesResultString[i]);
+                }
+                if (coordinatesOperation[0] > dataGridViewTable.RowCount || coordinatesOperation[1] > dataGridViewTable.ColumnCount || coordinatesResult[0] > dataGridViewTable.RowCount || coordinatesResult[1] > dataGridViewTable.ColumnCount)
+                {
+                    throw new ArgumentException("Клетка с такой координатой не существует");
+                }
             }
             catch
             {
-                MessageBox.Show("Координаты клеток введены неверно");
+                MessageBox.Show("Координаты клеток введены неверно");              
+                return;
+            }
+            try
+            {
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
+                 RPN.Calculate(dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString());
+
+            }
+            catch (Exception)
+            {
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
             }
 
         }
