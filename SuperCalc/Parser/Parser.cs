@@ -86,7 +86,7 @@ namespace SuperCalc.Parser
                         int len = str.Length;
                         i += len - 1;
                         result += str;
-
+                        
                         OneOperator = false;
                         isString = true;
                         continue;
@@ -167,10 +167,10 @@ namespace SuperCalc.Parser
                     break;
                 }
                 endIndex = startIndex;
-                if (char.IsLetter(expression[startIndex - 1]))
+                if (char.IsLetter(sb.ToString()[startIndex - 1]))
                 {
                     // Поиск начала метода
-                    while (operations.IndexOf(expression[startIndex]) == -1)
+                    while (operations.IndexOf(sb.ToString()[startIndex]) == -1)
                     {
                         startIndex--;
                         if (startIndex == -1)
@@ -182,8 +182,8 @@ namespace SuperCalc.Parser
                     // Поиск конца метода
                     while (true)
                     {
-                        int indexNextOpen = expression.IndexOf("(", endIndex + 1);
-                        int indexClose = expression.IndexOf(")", endIndex + 1);
+                        int indexNextOpen = sb.ToString().IndexOf("(", endIndex + 1);
+                        int indexClose = sb.ToString().IndexOf(")", endIndex + 1);
                         endIndex = indexClose;
                         if (indexNextOpen > indexClose || indexNextOpen == -1)
                         {
@@ -191,9 +191,8 @@ namespace SuperCalc.Parser
                         }
                     }
 
-                    string method = expression.Substring(startIndex, endIndex - startIndex + 1);
+                    string method = sb.ToString().Substring(startIndex, endIndex - startIndex + 1);
                     string result = UseMethod(method);
-
 
                     sb.Replace(method, result, startIndex, endIndex - startIndex + 1);
                 }
