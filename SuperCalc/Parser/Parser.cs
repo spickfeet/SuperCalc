@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SuperCalc.Methods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace SuperCalc.Parser
 {
     public class Parser
     {
-
+        private MethodsFactory _methodsFactory = new MethodsFactory();
 
         private Dictionary<string, int> operationPriority = new() {
         {"(", 0},
@@ -110,10 +111,7 @@ namespace SuperCalc.Parser
 
                     throw new Exception();
                 }
-
-
             }
-
 
             if (isString == true)
             {
@@ -192,7 +190,7 @@ namespace SuperCalc.Parser
                     }
 
                     string method = sb.ToString().Substring(startIndex, endIndex - startIndex + 1);
-                    string result = UseMethod(method);
+                    string result = _methodsFactory.Use(method);
 
                     sb.Replace(method, result, startIndex, endIndex - startIndex + 1);
                 }
