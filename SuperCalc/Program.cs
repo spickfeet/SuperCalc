@@ -1,3 +1,5 @@
+using SuperCalc.Methods;
+
 namespace SuperCalc
 {
     internal static class Program

@@ -6,18 +6,24 @@ using System.Threading.Tasks;
 
 namespace SuperCalc.Methods
 {
-    public class MethodsString
+    public static class MethodsString
     {
-        public string InsertMethod(string arg1, string arg2, decimal arg3)
+        public static string InsertMethod(string[] args)
         {
-            return arg1.Insert((int)arg3, arg2);
+            if (args.Length != 3) throw new ArgumentException("Неверное количество входных данных! Ожидалось: 3.");
+
+            decimal arg3 = decimal.Parse(args[2]);
+
+            return args[0].Insert((int)arg3, args[1]);
         }
 
-        public string ReplaceMethod(string arg1, string arg2, string arg3, string arg4)
+        public static string ReplaceMethod(string[] args)
         {//используется TRUE
-            StringBuilder stringBuilder = new StringBuilder(arg1);
-            if (arg4 == "TRUE") return stringBuilder.Replace(arg2, arg3).ToString();
-            return stringBuilder.Replace(arg2, arg3, 0, 1).ToString();
+            if (args.Length != 4) throw new ArgumentException("Неверное количество входных данных! Ожидалось: 4.");
+
+            StringBuilder stringBuilder = new StringBuilder(args[0]);
+            if (args[3] == "TRUE") return stringBuilder.Replace(args[1], args[2]).ToString();
+            return stringBuilder.Replace(args[1], args[2], 0, 1).ToString();
         }
     }
 }

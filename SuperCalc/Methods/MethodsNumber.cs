@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace SuperCalc.Methods
 {
-    public class MethodsNumber
+    public static class MethodsNumber
     {
-        public decimal MaxMethod(decimal[] args) { return args.Max(); }
+        public static decimal MaxMethod(decimal[] args) { return args.Max(); }
 
-        public decimal MinMethod(decimal[] args) { return args.Min(); }
+        public static decimal MinMethod(decimal[] args) { return args.Min(); }
 
-        public decimal SumMethod(decimal[] args) { return args.Sum(); }
+        public static decimal SumMethod(decimal[] args) { return args.Sum(); }
 
-        public decimal AverageMethod(decimal[] args) { return args.Average(); }
+        public static decimal AverageMethod(decimal[] args) { return args.Average(); }
     }
 }
