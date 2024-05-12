@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SuperCalc.Parser
@@ -19,26 +20,135 @@ namespace SuperCalc.Parser
 
         private string operations = "+-*/";
 
-        public string ToPostfix(string source)
+        public string ParseField(string source)
         {
+
+            string result = "";
+
 
             //     перед и после выражений можно поставить сколько угодно пробелов
             //     строковые, логические арифметические выражения нельзя друг с другом складывать
             //     нельзя повторять операторы несколько раз подряд
-            //     между операторами пробел может отсутствовать или быть только один
+            //     между операторами количество пробелов может быть разное
             //     для строковых выражений может применяться только конкатенация(+)
             //     нельзя в строковых выражениях использовать "
+            //     можно использовать только один метод в строках
 
-            return source;
+
+            bool isString = false;
+            bool OneOperator = false;
+
+            source = source.Trim(' ');
+
+            if (source.Contains('\"'))
+            {
+                if (source.Count(c => c == '\"') % 2 != 0) { throw new Exception(); }
+
+                isString = true;
+            }
+
+            for (int i = 0; i < source.Length; i++)
+            {
+                if (source[i] == '"')
+                {
+                    if (OneOperator == false && i != 0) { throw new Exception(); }
+
+                    string s = source.Substring(i + 1);
+                    int index = s.IndexOf('\"');
+
+                    result = result + source.Substring(i, index + 1);
+
+                    i += index + 1;
+                    OneOperator = false;
+                }
+                else
+                {
+                    if (OneOperator == true && operations.Contains(source[i])) { throw new Exception(); }
+                    if (operations.Contains(source[i]) && (source.Length - 1 == i || i == 0))
+                    {
+                        throw new Exception();
+                    }
+                    if (source[i] == ' ') { continue; }
+
+                    if (source[i] == '+' && isString == true)
+                    {
+                        OneOperator = true;
+                        continue;
+                    }
+
+                    if (isString && source[i] == 'З' && source.Length - i + 1 >= 16 + 8)
+                    {
+                        if (OneOperator == false && i != 0) { throw new Exception(); }
+
+                        string s = source.Substring(i);
+                        string str = TryParseMethod(s, "ЗАМЕНИТЬ", 4);
+
+                        int len = str.Length;
+                        i += len - 1;
+                        result += str;
+
+                        OneOperator = false;
+                        isString = true;
+                        continue;
+                    }
+
+                    if (isString && source[i] == 'В' && source.Length - i + 1 >= 16 + 8)
+                    {
+                        if (OneOperator == false && i != 0) { throw new Exception(); }
+
+                        string s = source.Substring(i);
+                        string str = TryParseMethod(s, "ВСТАВИТЬ", 4);
+
+                        int len = str.Length;
+                        i += len - 1;
+                        result += str;
+
+                        OneOperator = false;
+                        isString = true;
+                        continue;
+                    }
+
+                    throw new Exception();
+                }
+
+
+            }
+
+
+            if (isString == true)
+            {
+                result = result.Replace('\"', '\0');
+                result = result.Insert(0, "\"");
+                result = result.Insert(result.Length, "\"");
+
+                return result;
+            }
+
+            return result;
+        }
+
+        public string TryParseMethod(string source, string word, int countArgs)
+        {
+
+            string s = "";
+            if (countArgs > 1) { s += string.Join("", Enumerable.Repeat(".+,\\s", countArgs - 1)); }
+            s += ".+";
+
+            string pattern = "^(?<word>" + word + "\\(" + s + "\\)).*$";
+            Regex regex = new Regex(pattern);
+
+            Match match = regex.Match(source);
+
+            if (match.Success)
+            {
+                string str = match.Groups["word"].Value;//Вызвать метод
+                return str;
+            }
+
+            throw new Exception();
         }
 
 
-        public string ParseMethods(string str)
-        {//   "Равно(..., ...)" вычислить результат для всех функций + проверки
-            string result;
-
-            return "";
-        }
         public string ParseExpression(string expression)
         {
             StringBuilder sb = new StringBuilder(expression);
@@ -60,7 +170,7 @@ namespace SuperCalc.Parser
                 if (char.IsLetter(expression[startIndex - 1]))
                 {
                     // Поиск начала метода
-                    while ("+-/*".IndexOf(expression[startIndex]) == -1)
+                    while (operations.IndexOf(expression[startIndex]) == -1)
                     {
                         startIndex--;
                         if (startIndex == -1)
