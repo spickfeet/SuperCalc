@@ -132,15 +132,21 @@ namespace SuperCalc.Parser
             if (countArgs > 1) { s += string.Join("", Enumerable.Repeat(".+,\\s", countArgs - 1)); }
             s += ".+";
 
-            string pattern = "^(?<word>" + word + "\\(" + s + "\\)).*$";
-            Regex regex = new Regex(pattern);
+            //string pattern = "^(?<word>" + word + "\\(" + s + "\\)).*$";
+            //Regex regex = new Regex(pattern);
+            //Match match = regex.Match(source);
 
-            Match match = regex.Match(source);
+            //if (match.Success)
+            //{
+            //    string str = match.Groups["word"].Value;
+            //    //Вызвать метод
+            //    return str;
+            //}
 
-            if (match.Success)
+            if (source.StartsWith(word + "(") && source.Contains(")"))
             {
-                string str = match.Groups["word"].Value;//Вызвать метод
-                return str;
+                int index = source.IndexOf(")");
+                return source.Substring(0, index + 1);
             }
 
             throw new Exception();
