@@ -39,5 +39,57 @@ namespace SuperCalc.Parser
 
             return "";
         }
+        public string ParseExpression(string expression)
+        {
+            StringBuilder sb = new StringBuilder(expression);
+            sb.Replace(" ", "");
+            // Строка позволяющая пропускать лишние скобки
+            string temp = expression;
+            int startIndex;
+            int endIndex;
+            while (true)
+            {
+                // Получение индекса
+                startIndex = temp.LastIndexOf("(");
+                // Выход из цикла
+                if (startIndex == -1)
+                {
+                    break;
+                }
+                endIndex = startIndex;
+                if (char.IsLetter(expression[startIndex - 1]))
+                {
+                    // Поиск начала метода
+                    while ("+-/*".IndexOf(expression[startIndex]) == -1)
+                    {
+                        startIndex--;
+                        if (startIndex == -1)
+                        {
+                            break;
+                        }
+                    }
+                    startIndex++;
+                    // Поиск конца метода
+                    while (true)
+                    {
+                        int indexNextOpen = expression.IndexOf("(", endIndex + 1);
+                        int indexClose = expression.IndexOf(")", endIndex + 1);
+                        endIndex = indexClose;
+                        if (indexNextOpen > indexClose || indexNextOpen == -1)
+                        {
+                            break;
+                        }
+                    }
+
+                    string method = expression.Substring(startIndex, endIndex - startIndex + 1);
+                    string result = UseMethod(method);
+
+
+                    sb.Replace(method, result, startIndex, endIndex - startIndex + 1);
+                }
+                temp = temp.Remove(startIndex);
+            }
+            return sb.ToString();
+        }
     }
 }
