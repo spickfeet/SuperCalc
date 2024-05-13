@@ -60,7 +60,8 @@ namespace SuperCalc.Methods
 
                 for (int i = 0; i < expressions.Length; i++)
                 {
-                    if (expressions[i][0] != '"' || expressions[i][expressions[i].Length - 1] != '"') throw new Exception("Аргумент не является числом");
+                    if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"') 
+                        throw new Exception("Аргумент не является числом");
 
                     values[i] = (decimal)RPN.Calculate(expressions[i].ToString());
                 }
