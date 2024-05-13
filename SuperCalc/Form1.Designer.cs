@@ -165,14 +165,14 @@
             // ToolStripMenuItemMethods
             // 
             ToolStripMenuItemMethods.Name = "ToolStripMenuItemMethods";
-            ToolStripMenuItemMethods.Size = new Size(180, 22);
+            ToolStripMenuItemMethods.Size = new Size(134, 22);
             ToolStripMenuItemMethods.Text = "Методы";
             ToolStripMenuItemMethods.Click += ToolStripMenuItemMethods_Click;
             // 
             // ToolStripMenuItemInstructions
             // 
             ToolStripMenuItemInstructions.Name = "ToolStripMenuItemInstructions";
-            ToolStripMenuItemInstructions.Size = new Size(180, 22);
+            ToolStripMenuItemInstructions.Size = new Size(134, 22);
             ToolStripMenuItemInstructions.Text = "Инструция";
             ToolStripMenuItemInstructions.Click += ToolStripMenuItemInstructions_Click;
             // 
@@ -205,7 +205,7 @@
             comboBoxMethods.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxMethods.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             comboBoxMethods.FormattingEnabled = true;
-            comboBoxMethods.Items.AddRange(new object[] { "МАКС(Аргумент1,Аргумент2,...)", "МИН((Аргумент1,Аргумент2,...)", "СРЕДНЕЕ(Аргумент1,Аргумент2,...)", "СУММА(Аргумент1,Аргумент2,...)", "РАВНО(Аргумент1,Аргумент2)", "БОЛЬШЕ(Аргумент1,Аргумент2)", "МЕНЬШЕ(Аргумент1,Аргумент2)", "ЗАМЕНИТЬ(Аргумент1,Аргумент2,Аргумент3,Аргумент4)", "ВСТАВИТЬ(Аргумент1,Аргумент2,Аргумент3)" });
+            comboBoxMethods.Items.AddRange(new object[] { "МАКС(Аргумент1,Аргумент2,...)", "МИН(Аргумент1,Аргумент2,...)", "СРЕДНЕЕ(Аргумент1,Аргумент2,...)", "СУММА(Аргумент1,Аргумент2,...)", "РАВНО(Аргумент1,Аргумент2)", "БОЛЬШЕ(Аргумент1,Аргумент2)", "МЕНЬШЕ(Аргумент1,Аргумент2)", "ЗАМЕНИТЬ(Аргумент1,Аргумент2,Аргумент3,Аргумент4)", "ВСТАВИТЬ(Аргумент1,Аргумент2,Аргумент3)" });
             comboBoxMethods.Location = new Point(1042, 210);
             comboBoxMethods.Name = "comboBoxMethods";
             comboBoxMethods.Size = new Size(354, 25);

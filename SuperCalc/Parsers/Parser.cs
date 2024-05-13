@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SuperCalc.Parser
+namespace SuperCalc.Parsers
 {
     public class Parser
     {
@@ -158,7 +158,7 @@ namespace SuperCalc.Parser
             StringBuilder sb = new StringBuilder(expression);
             sb.Replace(" ", "");
             // Строка позволяющая пропускать лишние скобки
-            string temp = expression;
+            string temp = sb.ToString();
             int startIndex;
             int endIndex;
             while (true)
