@@ -24,7 +24,7 @@ namespace SuperCalc.Methods
                 { "МАКС", MethodsNumber.MaxMethod},
                 { "МИН", MethodsNumber.MinMethod},
                 { "СУММА", MethodsNumber.SumMethod},
-                { "СРЕДНЕЕ", MethodsNumber.SumMethod},
+                { "СРЕДНЕЕ", MethodsNumber.AverageMethod},
             };
 
             _stringMethods = new Dictionary<string, Func<string[], string>>
@@ -47,7 +47,6 @@ namespace SuperCalc.Methods
                 { "РАВНО",  MethodsConst.EqualMethod},
             };
         }
-
         public string Use(string inputStroke)
         {
             string methodName = inputStroke.Remove(inputStroke.IndexOf('('));
@@ -60,7 +59,7 @@ namespace SuperCalc.Methods
 
                 for (int i = 0; i < expressions.Length; i++)
                 {
-                    if (expressions[i][0] != '"' || expressions[i][expressions[i].Length - 1] != '"') throw new Exception("Аргумент не является числом");
+                    if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"')   throw new Exception("Аргумент не является числом");
 
                     values[i] = (decimal)RPN.Calculate(expressions[i].ToString());
                 }

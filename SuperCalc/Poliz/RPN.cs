@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -91,7 +92,7 @@ namespace SuperCalc.Poliz
                         i++;
                         if (i == input.Length) break;
                     }
-                    temp.Push(double.Parse(a)); //Записываем в стек
+                    temp.Push(double.Parse(a, CultureInfo.InvariantCulture)); //Записываем в стек
                     i--;
                 }
                 else if (IsOperator(input[i])) //Если символ - оператор

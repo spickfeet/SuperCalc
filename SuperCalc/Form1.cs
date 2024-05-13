@@ -4,6 +4,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.VisualBasic;
 using SuperCalc.Poliz;
 using SuperCalc.AboutForms;
+using SuperCalc.Parsers;
 
 namespace SuperCalc
 {
@@ -12,6 +13,7 @@ namespace SuperCalc
         private JSONRepository _repository;
         public event Action<string> PathChanged;
         private string[,] _data;
+        private Parser _parser = new();
 
         public Form1()
         {
@@ -216,7 +218,7 @@ namespace SuperCalc
             try
             {
                 dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
-                 RPN.Calculate(dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString());
+                 _parser.ParseExpression(dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString());
 
             }
             catch (Exception)
@@ -224,7 +226,7 @@ namespace SuperCalc
                 dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#Œÿ»¡ ¿#";
             }
 
-        }
+}
 
         private void buttonSelect_Click(object sender, EventArgs e)
         {
