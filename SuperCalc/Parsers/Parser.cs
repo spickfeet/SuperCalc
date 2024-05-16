@@ -77,6 +77,12 @@ namespace SuperCalc.Parsers
                         }
                         if (source[i] == ' ') { continue; }
 
+                        // Если в строке есть арифметическая или логическая опреция выбрасываем исключение
+                        if(OneOperator == true && (source[i] != '\"' && source[i] != 'З'&& source[i] != 'В')) 
+                        {
+                            throw new Exception();
+                        }
+
                         if (source[i] == '+' && isString == true)
                         {
                             OneOperator = true;

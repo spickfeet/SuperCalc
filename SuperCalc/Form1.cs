@@ -226,7 +226,7 @@ namespace SuperCalc
             //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#Œÿ»¡ ¿#";
             //}
 
-}
+        }
 
         private void buttonSelect_Click(object sender, EventArgs e)
         {
