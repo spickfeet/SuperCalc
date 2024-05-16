@@ -76,9 +76,9 @@ namespace SuperCalc.Methods
 
                 for (int i = 0; i < expressions.Length; i++)
                 {
-                    if (i == 2)
+                    if (i == 2 && expressions.Length == 3)
                     {
-                        if (expressions[i][0] != '"' || expressions[i][expressions[i].Length - 1] != '"')
+                        if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"')
                             throw new Exception("Аргумент не является числом");
 
                         values[i] = RPN.Calculate(expressions[i]).ToString();
@@ -87,8 +87,8 @@ namespace SuperCalc.Methods
                     }
 
                     values[i] = expressions[i];
-                }
-
+                    values[i] = values[i].Replace("\"", "");
+                }                        
                 return methodString(values);
             }
 

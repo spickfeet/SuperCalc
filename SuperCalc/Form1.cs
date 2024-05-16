@@ -215,16 +215,16 @@ namespace SuperCalc
                 MessageBox.Show("Координаты клеток введены неверно");              
                 return;
             }
-            try
-            {
+            //try
+            //{
                 dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
-                 _parser.ParseExpression(dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString());
+                 _parser.ParseField(dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString());
 
-            }
-            catch (Exception)
-            {
-                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
-            }
+            //}
+            //catch (Exception)
+            //{
+            //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
+            //}
 
 }
 
