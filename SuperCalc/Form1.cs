@@ -214,31 +214,29 @@ namespace SuperCalc
             }
             catch
             {
-                MessageBox.Show("Координаты клеток введены неверно");              
+                MessageBox.Show("Координаты клеток введены неверно");
                 return;
             }
-            //try
-            //{
-            bool cellReplaced;
-            string expression = dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString();
-            //do
-            //{
+            try
+            {
+                bool cellReplaced;
+                string expression = dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString();
+
                 cellReplaced = false;
                 expression = ReplaceCell(expression);
-            //} while (cellReplaced = true);
                 dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
                  _parser.ParseField(expression);
 
-            //}
-            //catch (Exception)
-            //{
-            //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
-            //}
+            }
+            catch (Exception)
+            {
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
+            }
         }
    
         /// <summary>
-        /// Метод возвращяет занчение ячейки.
-        /// В качестве параметра принемает ячейку в формате строка:столбец.
+        /// Метод возвращает значение ячейки.
+        /// В качестве параметра принимает ячейку в формате строка:столбец.
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
