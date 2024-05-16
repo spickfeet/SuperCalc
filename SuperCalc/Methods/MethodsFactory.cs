@@ -49,6 +49,7 @@ namespace SuperCalc.Methods
         }
         public string Use(string inputStroke)
         {
+            inputStroke = inputStroke.Trim(' ');
             string methodName = inputStroke.Remove(inputStroke.IndexOf('('));
 
             if (_numberMethods.TryGetValue(methodName, out var methodNumber) == true)
@@ -88,8 +89,11 @@ namespace SuperCalc.Methods
 
                     values[i] = expressions[i];
                     values[i] = values[i].Replace("\"", "");
-                }                        
-                return methodString(values);
+                }
+                string res = methodString(values);
+                res = res.Insert(0, "\"");
+                res += "\"";
+                return res;
             }
 
             if (_constStringMethods.TryGetValue(methodName, out var methodConstString) == true)

@@ -44,7 +44,9 @@ namespace SuperCalc.Parsers
 
             source = source.Trim(' ');
 
-            if (source.Contains('\"') || source.Contains("ВСТАВИТЬ(") || source.Contains("ЗАМЕНИТЬ("))
+            source = ParseExpression(source);
+
+            if (source.Contains('\"'))
             {
                 if (source.Count(c => c == '\"') % 2 != 0) { throw new Exception(); }
 
@@ -78,7 +80,7 @@ namespace SuperCalc.Parsers
                         if (source[i] == ' ') { continue; }
 
                         // Если в строке есть арифметическая или логическая опреция выбрасываем исключение
-                        if(OneOperator == true && (source[i] != '\"' && source[i] != 'З'&& source[i] != 'В')) 
+                        if((OneOperator == true || i==0) && source[i] != '\"') 
                         {
                             throw new Exception();
                         }
@@ -89,48 +91,48 @@ namespace SuperCalc.Parsers
                             continue;
                         }
 
-                        if (isString && source[i] == 'З' && source.Length - i + 1 >= 10)
-                        {
-                            if (OneOperator == false && i != 0) { throw new Exception(); }
+                        //if (isString && source[i] == 'З' && source.Length - i + 1 >= 10)
+                        //{
+                        //    if (OneOperator == false && i != 0) { throw new Exception(); }
 
-                            string s = source.Substring(i);
-                            s = s.Substring(0, s.IndexOf(")") + 1);
-                            string str = TryParseMethod(s, "ЗАМЕНИТЬ", 4);
+                        //    string s = source.Substring(i);
+                        //    s = s.Substring(0, s.IndexOf(")") + 1);
+                        //    string str = TryParseMethod(s, "ЗАМЕНИТЬ", 4);
 
 
-                            //исправить
-                            int len = s.Length;
-                            i += len - 1;
-                            result += str;
-                            //sourceLength = sourceLength - (s.Length - len);
+                        //    //исправить
+                        //    int len = s.Length;
+                        //    i += len - 1;
+                        //    result += str;
+                        //    //sourceLength = sourceLength - (s.Length - len);
 
-                            sourceLength = sourceLength - (s.Length - len);
+                        //    sourceLength = sourceLength - (s.Length - len);
 
-                            OneOperator = false;
-                            isString = true;
-                            continue;
-                        }
+                        //    OneOperator = false;
+                        //    isString = true;
+                        //    continue;
+                        //}
 
-                        if (isString && source[i] == 'В' && source.Length - i + 1 >= 10)
-                        {
-                            if (OneOperator == false && i != 0) { throw new Exception(); }
+                        //if (isString && source[i] == 'В' && source.Length - i + 1 >= 10)
+                        //{
+                        //    if (OneOperator == false && i != 0) { throw new Exception(); }
 
-                            string s = source.Substring(i);
-                            s = s.Substring(0, s.IndexOf(")") + 1);
-                            string str = TryParseMethod(s, "ВСТАВИТЬ", 4);
+                        //    string s = source.Substring(i);
+                        //    s = s.Substring(0, s.IndexOf(")") + 1);
+                        //    string str = TryParseMethod(s, "ВСТАВИТЬ", 4);
 
-                            //int len = str.Length;
-                            int len = s.Length;
-                            i += len - 1;
-                            result += str;
-                            //sourceLength = sourceLength - (s.Length - len);
+                        //    //int len = str.Length;
+                        //    int len = s.Length;
+                        //    i += len - 1;
+                        //    result += str;
+                        //    //sourceLength = sourceLength - (s.Length - len);
 
-                            sourceLength = sourceLength - (s.Length - len);
+                        //    sourceLength = sourceLength - (s.Length - len);
 
-                            OneOperator = false;
-                            isString = true;
-                            continue;
-                        }
+                        //    OneOperator = false;
+                        //    isString = true;
+                        //    continue;
+                        //}
 
                     return result;
                     }
@@ -187,7 +189,7 @@ namespace SuperCalc.Parsers
         public string ParseExpression(string expression)
         {
             StringBuilder sb = new StringBuilder(expression);
-            sb.Replace(" ", "");
+            //sb.Replace(" ", "");
             // Строка позволяющая пропускать лишние скобки
             string temp = sb.ToString();
             int startIndex;
@@ -195,15 +197,15 @@ namespace SuperCalc.Parsers
             while (true)
             {
                 // Получение индекса
-                startIndex = temp.LastIndexOf("(");
+                startIndex = temp.LastIndexOf("(") - 1;
                 // Выход из цикла
                 if (startIndex < 1) { break; }
               
-                endIndex = startIndex;
+                endIndex = startIndex + 1;
                 if (char.IsLetter(sb.ToString()[startIndex - 1]))
                 {
                     // Поиск начала метода
-                    while (operations.IndexOf(sb.ToString()[startIndex]) == -1)
+                    while ("+-*/(".IndexOf(sb.ToString()[startIndex]) == -1)
                     {
                         startIndex--;
                         if (startIndex == -1)
