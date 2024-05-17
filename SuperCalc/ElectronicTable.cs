@@ -10,14 +10,14 @@ using System.Linq.Expressions;
 
 namespace SuperCalc
 {
-    public partial class Form1 : Form
+    public partial class ElectronicTable : Form
     {
         private JSONRepository _repository;
         public event Action<string> PathChanged;
         private string[,] _data;
         private Calculator _parser = new();
 
-        public Form1()
+        public ElectronicTable()
         {
             InitializeComponent();
             dataGridViewTable.AllowUserToAddRows = false;

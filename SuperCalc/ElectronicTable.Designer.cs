@@ -1,6 +1,6 @@
 ﻿namespace SuperCalc
 {
-    partial class Form1
+    partial class ElectronicTable
     {
         /// <summary>
         ///  Required designer variable.
@@ -233,7 +233,7 @@
             buttonSelect.UseVisualStyleBackColor = true;
             buttonSelect.Click += buttonSelect_Click;
             // 
-            // Form1
+            // ElectronicTable
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -253,10 +253,11 @@
             Controls.Add(dataGridViewTable);
             Controls.Add(menuStrip1);
             ForeColor = SystemColors.ControlText;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             KeyPreview = true;
             MainMenuStrip = menuStrip1;
-            Name = "Form1";
-            Text = "Form1";
+            Name = "ElectronicTable";
+            Text = "ElectronicTable";
             KeyDown += Form1_KeyDown;
             ((System.ComponentModel.ISupportInitialize)dataGridViewTable).EndInit();
             menuStrip1.ResumeLayout(false);
