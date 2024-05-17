@@ -16,7 +16,7 @@ namespace SuperCalc
             string json = File.ReadAllText(PathName);
             string[][]? deserializedData = JsonConvert.DeserializeObject<string[][]>(json);
 
-            if (deserializedData is null) throw new Exception("Пустой файл");
+            if (deserializedData is null) throw new NullReferenceException("Пустой файл");
 
             string[,] data = new string[deserializedData.Length, deserializedData[0].Length];
 

@@ -1,4 +1,5 @@
-﻿using SuperCalc.Poliz;
+﻿using SuperCalc.Parsers;
+using SuperCalc.Poliz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,7 @@ namespace SuperCalc.Methods
         }
         public string Use(string inputStroke)
         {
+            inputStroke = inputStroke.Trim(' ');
             string methodName = inputStroke.Remove(inputStroke.IndexOf('('));
 
             if (_numberMethods.TryGetValue(methodName, out var methodNumber) == true)
@@ -60,7 +62,7 @@ namespace SuperCalc.Methods
                 for (int i = 0; i < expressions.Length; i++)
                 {
                     if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"') 
-                        throw new Exception("Аргумент не является числом");
+                        throw new ArgumentException("Аргумент не является числом");
 
                     values[i] = (decimal)RPN.Calculate(expressions[i].ToString());
                 }
@@ -76,20 +78,27 @@ namespace SuperCalc.Methods
 
                 for (int i = 0; i < expressions.Length; i++)
                 {
-                    if (i == 2)
+                    if (i == 2 && expressions.Length == 3)
                     {
-                        if (expressions[i][0] != '"' || expressions[i][expressions[i].Length - 1] != '"')
-                            throw new Exception("Аргумент не является числом");
+                        if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"')
+                            throw new ArgumentException("Аргумент не является числом");
 
                         values[i] = RPN.Calculate(expressions[i]).ToString();
 
                         continue;
                     }
 
-                    values[i] = expressions[i];
-                }
+                    if (expressions[i][0] != '\"' || expressions[i][0] != '\"')
+                        throw new ArgumentException($"Аргумент {expressions[i]} в методе {methodName} должен быть строкой") ;
 
-                return methodString(values);
+                    values[i] = StringParser.Concatenation(expressions[i]);
+
+                    values[i] = values[i].Replace("\"", "");
+                }
+                string res = methodString(values);
+                res = res.Insert(0, "\"");
+                res += "\"";
+                return res;
             }
 
             if (_constStringMethods.TryGetValue(methodName, out var methodConstString) == true)
@@ -123,7 +132,7 @@ namespace SuperCalc.Methods
                 for (int i = 0; i < expressions.Length; i++)
                 {
                     if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"') 
-                        throw new Exception("Аргумент не является числом");
+                        throw new ArgumentException("Аргумент не является числом");
 
                     values[i] = (decimal)RPN.Calculate(expressions[i].ToString());
                 }

@@ -5,6 +5,8 @@ using Microsoft.VisualBasic;
 using SuperCalc.Poliz;
 using SuperCalc.AboutForms;
 using SuperCalc.Parsers;
+using System.Text;
+using System.Linq.Expressions;
 
 namespace SuperCalc
 {
@@ -13,7 +15,7 @@ namespace SuperCalc
         private JSONRepository _repository;
         public event Action<string> PathChanged;
         private string[,] _data;
-        private Parser _parser = new();
+        private Calculator _parser = new();
 
         public Form1()
         {
@@ -212,21 +214,104 @@ namespace SuperCalc
             }
             catch
             {
-                MessageBox.Show("Координаты клеток введены неверно");              
+                MessageBox.Show("Координаты клеток введены неверно");
                 return;
             }
-            try
+            //try
+            //{
+            
+            if (dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value == null)
             {
-                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
-                 _parser.ParseExpression(dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString());
-
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "";
+                return;
             }
-            catch (Exception)
+            string expression = dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString();
+            expression = ReplaceCell(expression);
+            dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
+             _parser.Calculate(expression);
+
+            //}
+            //catch (Exception)
+            //{
+            //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
+            //}
+        }
+   
+        /// <summary>
+        /// Метод возвращает значение ячейки.
+        /// В качестве параметра принимает ячейку в формате строка:столбец.
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        private string GetValueBuyCell(string cell)
+        {
+            int[] coordinates = new int[2];
+            string[] coordinatesOperationString = cell.Split(":");
+            for (int i = 0; i < 2; i++)
             {
-                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
+                coordinates[i] = int.Parse(coordinatesOperationString[i]);
+            }
+            string res = dataGridViewTable.Rows[coordinates[0] - 1].Cells[coordinates[1] - 1].Value.ToString();
+            return dataGridViewTable.Rows[coordinates[0] - 1].Cells[coordinates[1] - 1].Value.ToString();
+        }
+
+        private string ReplaceCell(string expression)
+        {
+            StringBuilder res = new StringBuilder(expression);
+            int indexColon = -1;
+            int indexOpenQuotes;
+            int indexCloseQuotes = -1;
+
+            string cell;
+
+            int startIndex = 0;
+            int endIndex = 0;
+
+            while (true)
+            {
+                indexColon = res.ToString().IndexOf(":", indexColon + 1);
+                if (indexColon == -1) return res.ToString();
+                while (true)
+                {
+                    indexOpenQuotes = res.ToString().IndexOf("\"", indexCloseQuotes + 1);
+                    indexCloseQuotes = res.ToString().IndexOf("\"", indexOpenQuotes + 1);
+                    if (indexColon > indexOpenQuotes && indexColon < indexCloseQuotes)
+                    {
+                        break;
+                    }
+                    if (indexColon < indexOpenQuotes || indexOpenQuotes == -1)
+                    {
+                        // Поиск индекса начала.
+
+                        for (int i = indexColon - 1; i >= 0; i--)
+                        {
+                            if (!char.IsDigit(res.ToString()[i]))
+                            {
+                                break;
+                            }
+                            startIndex = i;
+                        }
+                        // Поиск индекса конца.
+                        for (int i = indexColon + 1; i < res.ToString().Length; i++)
+                        {
+                            if (!char.IsDigit(res.ToString()[i]))
+                            {
+                                break;
+                            }
+                            endIndex = i;
+                        }
+                        cell = res.ToString().Substring(startIndex, endIndex - startIndex + 1);
+                        res.Replace(cell, GetValueBuyCell(cell), startIndex, endIndex - startIndex + 1);                      
+                        indexColon = -1;
+                        indexCloseQuotes = -1;
+                        startIndex = 0;
+                        endIndex = 0;
+                        break;
+                    }
+                }
             }
 
-}
+        }
 
         private void buttonSelect_Click(object sender, EventArgs e)
         {
