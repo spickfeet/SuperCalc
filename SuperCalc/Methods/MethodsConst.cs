@@ -8,6 +8,12 @@ namespace SuperCalc.Methods
 {
     public static class MethodsConst
     {
+        /// <summary>
+        /// Метод больше для сравнения строк.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
         public static bool MoreMethod(string arg1, string arg2)
         {
 
@@ -22,6 +28,12 @@ namespace SuperCalc.Methods
             return arg1.CompareTo(arg2) > 0;
         }
 
+        /// <summary>
+        /// Метод больше для сравнения числе.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
         public static bool MoreMethod(decimal arg1, decimal arg2)
         {
             return arg1 > arg2;
