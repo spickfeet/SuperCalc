@@ -78,12 +78,21 @@ namespace SuperCalc.Methods
 
                 for (int i = 0; i < expressions.Length; i++)
                 {
-                    if (i == 2 && expressions.Length == 3)
+                    if (i == 2 && methodName == "ВСТАВИТЬ")
                     {
                         if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"')
                             throw new ArgumentException("Аргумент не является числом");
 
                         values[i] = RPN.Calculate(expressions[i]).ToString();
+
+                        continue;
+                    }
+                    if (i == 3 && methodName == "ЗАМЕНИТЬ")
+                    {
+                        if (expressions[i][0] != '.' || expressions[i][expressions[i].Length - 1] != '.')
+                            throw new ArgumentException($"Аргумент {i}: {expressions[i]} не является булевым числом");
+
+                        values[i] = expressions[i];
 
                         continue;
                     }
@@ -150,14 +159,50 @@ namespace SuperCalc.Methods
             methodStroke = methodStroke.Replace(methodName + '(', "");
             methodStroke = methodStroke.Remove(methodStroke.Length - 1);
 
-            string[] expressions = methodStroke.Split(",");
-
-            for (int i = 0; i < expressions.Length; i++)
+            if (methodStroke.Contains('\"') == false)
             {
-                expressions[i] = expressions[i].Trim();
-            }
+                string[] expressions = methodStroke.Split(",");
 
-            return expressions;
+                for (int i = 0; i < expressions.Length; i++)
+                {
+                    expressions[i] = expressions[i].Trim();
+                }
+
+                return expressions;
+            }
+            else
+            {
+                int indexOpenQuotes;
+                int indexCloseQuotes;
+
+                List<string> expressions = new List<string>();
+
+                while (methodStroke.Contains('\"'))
+                {
+                    indexCloseQuotes = -1;
+
+                    indexOpenQuotes = methodStroke.IndexOf('\"', indexCloseQuotes + 1);
+                    indexCloseQuotes = methodStroke.IndexOf('\"', indexOpenQuotes + 1);
+
+                    string expression = methodStroke.Substring(indexOpenQuotes, indexCloseQuotes - indexOpenQuotes + 1);
+                    expressions.Add(expression);
+
+                    methodStroke = methodStroke.Remove(indexOpenQuotes, indexCloseQuotes - indexOpenQuotes + 1);
+                }
+
+                string[] numberExpression = methodStroke.Split(',');
+                for (int i = 0; i < numberExpression.Length; i++)
+                {
+                    numberExpression[i] = numberExpression[i].Trim();
+
+                    if (string.IsNullOrEmpty(numberExpression[i]) == false)
+                    {
+                        expressions.Add(numberExpression[i]);
+                    }
+                }
+
+                return expressions.ToArray();
+            }
         }
     }
 }
