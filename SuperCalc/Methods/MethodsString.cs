@@ -24,7 +24,9 @@ namespace SuperCalc.Methods
 
             StringBuilder stringBuilder = new StringBuilder(args[0]);
             if (args[3] == ".TRUE.") return stringBuilder.Replace(args[1], args[2]).ToString();
-            return stringBuilder.Replace(args[1], args[2], 0, 1).ToString();
+            if (args[3] == ".FALSE.") return stringBuilder.Replace(args[1], args[2], 0, args[1].IndexOf(args[2]) + args.Length).ToString();
+
+            throw new Exception($"Неверный аргумент: {args[3]} в методе ЗАМЕНИТЬ");
         }
     }
 }
