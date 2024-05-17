@@ -42,7 +42,7 @@ namespace SuperCalc.Parsers
             // Работа с логическими константами
             if(source.Contains(".TRUE.")|| source.Contains(".FALSE."))
             {
-                return source;
+                return ParserLogicConst.Parse(source);
             }
             // Работа с числами
             else
