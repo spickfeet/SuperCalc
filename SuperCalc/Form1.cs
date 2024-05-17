@@ -112,6 +112,8 @@ namespace SuperCalc
 
         private void DisplayTable(string[,] data)
         {
+            dataGridViewTable.Columns.Clear();
+
             if (dataGridViewTable.ColumnCount < data.GetLength(1)
                 && dataGridViewTable.RowCount < data.GetLength(0))
             {
