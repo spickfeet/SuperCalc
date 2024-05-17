@@ -15,7 +15,7 @@ namespace SuperCalc
         private JSONRepository _repository;
         public event Action<string> PathChanged;
         private string[,] _data;
-        private Parser _parser = new();
+        private Calculator _parser = new();
 
         public Form1()
         {
@@ -217,21 +217,24 @@ namespace SuperCalc
                 MessageBox.Show("Координаты клеток введены неверно");
                 return;
             }
-            try
+            //try
+            //{
+            
+            if (dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value == null)
             {
-                bool cellReplaced;
-                string expression = dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString();
-
-                cellReplaced = false;
-                expression = ReplaceCell(expression);
-                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
-                 _parser.ParseField(expression);
-
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "";
+                return;
             }
-            catch (Exception)
-            {
-                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
-            }
+            string expression = dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString();
+            expression = ReplaceCell(expression);
+            dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
+             _parser.Calculate(expression);
+
+            //}
+            //catch (Exception)
+            //{
+            //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
+            //}
         }
    
         /// <summary>

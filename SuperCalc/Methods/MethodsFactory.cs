@@ -1,4 +1,5 @@
-﻿using SuperCalc.Poliz;
+﻿using SuperCalc.Parsers;
+using SuperCalc.Poliz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,7 +88,11 @@ namespace SuperCalc.Methods
                         continue;
                     }
 
-                    values[i] = expressions[i];
+                    if (expressions[i][0] != '\"' || expressions[i][0] != '\"')
+                        throw new ArgumentException($"Аргумент {expressions[i]} в методе {methodName} должен быть строкой") ;
+
+                    values[i] = StringParser.Concatenation(expressions[i]);
+
                     values[i] = values[i].Replace("\"", "");
                 }
                 string res = methodString(values);
