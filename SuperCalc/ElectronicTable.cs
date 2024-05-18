@@ -31,7 +31,6 @@ namespace SuperCalc
             _repository = new JSONRepository();
             PathChanged += _repository.OnPathChanged;
 
-            _data = new string[dataGridViewTable.RowCount, dataGridViewTable.ColumnCount];
         }
 
         private void ColumnRecount()
@@ -71,12 +70,17 @@ namespace SuperCalc
         }
         private void ReadData()
         {
-            _data = new string[dataGridViewTable.RowCount, dataGridViewTable.ColumnCount];
+            _data = new string[dataGridViewTable.Rows.Count, dataGridViewTable.Columns.Count];
 
             for (int i = 0; i < dataGridViewTable.RowCount; i++)
             {
                 for (int j = 0; dataGridViewTable.ColumnCount > j; j++)
                 {
+                    if(dataGridViewTable.Rows[i].Cells[j].Value == null)
+                    {
+                        _data[i, j] = "";
+                        continue;
+                    }
                     _data[i, j] = Convert.ToString(dataGridViewTable.Rows[i].Cells[j].Value.ToString() ?? "");
                 }
             }
