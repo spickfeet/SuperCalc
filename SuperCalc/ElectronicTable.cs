@@ -30,6 +30,8 @@ namespace SuperCalc
 
             _repository = new JSONRepository();
             PathChanged += _repository.OnPathChanged;
+
+            _data = new string[dataGridViewTable.RowCount, dataGridViewTable.ColumnCount];
         }
 
         private void ColumnRecount()
@@ -75,8 +77,7 @@ namespace SuperCalc
             {
                 for (int j = 0; dataGridViewTable.ColumnCount > j; j++)
                 {
-                    string temp = Convert.ToString(dataGridViewTable.Rows[i].Cells[j].Value ?? "");
-                    _data[i, j] = temp;
+                    _data[i, j] = Convert.ToString(dataGridViewTable.Rows[i].Cells[j].Value.ToString() ?? "");
                 }
             }
         }
@@ -231,7 +232,7 @@ namespace SuperCalc
                     dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "";
                     return;
                 }
-                string expression = dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString();
+                string expression = (string)dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value;
                 expression = ReplaceCell(expression);
                 dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
                  _parser.Calculate(expression);
@@ -263,8 +264,8 @@ namespace SuperCalc
             {
                 coordinates[i] = int.Parse(coordinatesOperationString[i]);
             }
-            string res = dataGridViewTable.Rows[coordinates[0] - 1].Cells[coordinates[1] - 1].Value.ToString();
-            return dataGridViewTable.Rows[coordinates[0] - 1].Cells[coordinates[1] - 1].Value.ToString();
+
+            return (string)dataGridViewTable.Rows[coordinates[0] - 1].Cells[coordinates[1] - 1].Value;
         }
 
         private string ReplaceCell(string expression)
