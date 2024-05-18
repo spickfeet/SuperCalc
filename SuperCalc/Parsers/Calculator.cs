@@ -15,15 +15,6 @@ namespace SuperCalc.Parsers
     {
         private MethodsFactory _methodsFactory = new MethodsFactory();
 
-        private Dictionary<string, int> operationPriority = new() {
-        {"(", 0},
-        {"+", 1},
-        {"-", 1},
-        {"*", 2},
-        {"/", 2} };
-
-        private string operations = "+-*/";
-
         public string Calculate(string source)
         {
 
@@ -42,7 +33,7 @@ namespace SuperCalc.Parsers
             // Работа с логическими константами
             if(source.Contains(".TRUE.")|| source.Contains(".FALSE."))
             {
-                return source;
+                return ParserLogicConst.Parse(source);
             }
             // Работа с числами
             else
@@ -51,38 +42,9 @@ namespace SuperCalc.Parsers
             }
         }
 
-        //public string TryParseMethod(string source, string word, int countArgs)
-        //{
-
-        //    string s = "";
-        //    if (countArgs > 1) { s += string.Join("", Enumerable.Repeat(".+,\\s", countArgs - 1)); }
-        //    s += ".+";
-
-        //    //string pattern = "^(?<word>" + word + "\\(" + s + "\\)).*$";
-        //    //Regex regex = new Regex(pattern);
-        //    //Match match = regex.Match(source);
-
-        //    //if (match.Success)
-        //    //{
-        //    //    string str = match.Groups["word"].Value;
-        //    //    //Вызвать метод
-        //    //    return str;
-        //    //}
-
-        //    if (source.StartsWith(word + "(") && source.Contains(")"))
-        //    {
-        //        string result = _methodsFactory.Use(source);
-        //        return result;
-        //    }
-
-        //    throw new Exception();
-        //}
-
-
         public string CalculateMethods(string expression)
         {
             StringBuilder sb = new StringBuilder(expression);
-            //sb.Replace(" ", "");
             // Строка позволяющая пропускать лишние скобки
             string temp = sb.ToString();
             int startIndex;
