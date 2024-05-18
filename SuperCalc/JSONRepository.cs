@@ -11,12 +11,12 @@ namespace SuperCalc
 
         public string[,] GetData()
         {
-            if (string.IsNullOrEmpty(PathName)) throw new Exception("Не указан путь до файла");
+            if (string.IsNullOrEmpty(PathName)) throw new ArgumentException("Не указан путь до файла");
 
             string json = File.ReadAllText(PathName);
             string[][]? deserializedData = JsonConvert.DeserializeObject<string[][]>(json);
 
-            if (deserializedData is null) throw new NullReferenceException("Пустой файл");
+            if (deserializedData is null) throw new ArgumentException("Пустой файл");
 
             string[,] data = new string[deserializedData.Length, deserializedData[0].Length];
 
@@ -33,7 +33,7 @@ namespace SuperCalc
 
         public void Save(string[,] data)
         {
-            if (string.IsNullOrEmpty(PathName)) throw new Exception("Не указан путь до файла");
+            if (string.IsNullOrEmpty(PathName)) throw new ArgumentException("Не указан путь до файла");
 
             File.Delete(PathName);
 

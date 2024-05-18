@@ -35,20 +35,22 @@
             // richTextBox1
             // 
             richTextBox1.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            richTextBox1.Location = new Point(12, 12);
+            richTextBox1.Location = new Point(14, 16);
+            richTextBox1.Margin = new Padding(3, 4, 3, 4);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(873, 644);
+            richTextBox1.Size = new Size(997, 857);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // AboutInstructions
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
-            ClientSize = new Size(897, 665);
+            ClientSize = new Size(1025, 887);
             Controls.Add(richTextBox1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "AboutInstructions";
             Text = "AboutInstructions";
             ResumeLayout(false);

@@ -68,7 +68,7 @@ namespace SuperCalc.Parsers
                 if (char.IsLetter(sb.ToString()[startIndex - 1]))
                 {
                     // Поиск начала метода                  
-                    while ("+-*/(".IndexOf(sb.ToString()[startIndex]) == -1)
+                    while ("+-*/(.".IndexOf(sb.ToString()[startIndex]) == -1)
                     {
                         startIndex--;
                         if (startIndex == -1)

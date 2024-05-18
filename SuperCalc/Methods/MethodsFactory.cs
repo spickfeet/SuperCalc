@@ -149,7 +149,7 @@ namespace SuperCalc.Methods
                 return methodConstNumber(values[0], values[1]) == true ? ".TRUE." : ".FALSE.";
             }
 
-            throw new NotImplementedException("Нет метода с данным именем");
+            throw new ArgumentException("Нет метода с данным именем");
         }
 
         private string[] GetExpressions(string inputStroke, string methodName)

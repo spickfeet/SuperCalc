@@ -219,26 +219,32 @@ namespace SuperCalc
                 MessageBox.Show("Координаты клеток введены неверно");
                 return;
             }
-            //try
-            //{
-            
-            if (dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value == null)
+            try
             {
-                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "";
-                return;
-            }
-            string expression = dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString();
-            expression = ReplaceCell(expression);
-            dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
-             _parser.Calculate(expression);
 
-            //}
-            //catch (Exception)
-            //{
-            //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
-            //}
+                if (dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value == null)
+                {
+                    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "";
+                    return;
+                }
+                string expression = dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value.ToString();
+                expression = ReplaceCell(expression);
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
+                 _parser.Calculate(expression);
+
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message);
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Неизвестная ошибка");
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
+            }
         }
-   
+
         /// <summary>
         /// Метод возвращает значение ячейки.
         /// В качестве параметра принимает ячейку в формате строка:столбец.
@@ -303,7 +309,7 @@ namespace SuperCalc
                             endIndex = i;
                         }
                         cell = res.ToString().Substring(startIndex, endIndex - startIndex + 1);
-                        res.Replace(cell, GetValueBuyCell(cell), startIndex, endIndex - startIndex + 1);                      
+                        res.Replace(cell, GetValueBuyCell(cell), startIndex, endIndex - startIndex + 1);
                         indexColon = -1;
                         indexCloseQuotes = -1;
                         startIndex = 0;
@@ -330,6 +336,17 @@ namespace SuperCalc
         {
             AboutInstructions aboutInstructions = new AboutInstructions();
             aboutInstructions.Show();
+        }
+
+        private void buttonClearTable_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridViewTable.RowCount; i++)
+            {
+                for (int j = 0; dataGridViewTable.ColumnCount > j; j++)
+                {
+                    dataGridViewTable.Rows[i].Cells[j].Value = "";
+                }
+            }
         }
     }
 }
