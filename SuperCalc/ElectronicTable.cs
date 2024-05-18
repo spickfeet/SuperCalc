@@ -113,12 +113,16 @@ namespace SuperCalc
         private void DisplayTable(string[,] data)
         {
             dataGridViewTable.Columns.Clear();
-
-            if (dataGridViewTable.ColumnCount < data.GetLength(1)
-                && dataGridViewTable.RowCount < data.GetLength(0))
+            while (true)
             {
-                dataGridViewTable.ColumnCount = data.GetLength(1);
-                dataGridViewTable.RowCount = data.GetLength(0);
+                if (dataGridViewTable.ColumnCount < data.GetLength(1)
+                && dataGridViewTable.RowCount < data.GetLength(0))
+                {
+                    dataGridViewTable.Columns.Add($"{dataGridViewTable.ColumnCount + 1}", $"{dataGridViewTable.ColumnCount + 1}");
+                    dataGridViewTable.Rows.Add();
+                    continue;
+                }
+                break;
             }
 
             for (int i = 0; i < data.GetLength(0); i++)
@@ -219,8 +223,8 @@ namespace SuperCalc
                 MessageBox.Show("Êîîðäèíàòû êëåòîê ââåäåíû íåâåðíî");
                 return;
             }
-            try
-            {
+            //try
+            //{
 
                 if (dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value == null)
                 {
@@ -232,17 +236,17 @@ namespace SuperCalc
                 dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
                  _parser.Calculate(expression);
 
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show(ex.Message);
-                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ÎØÈÁÊÀ#";
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Íåèçâåñòíàÿ îøèáêà");
-                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ÎØÈÁÊÀ#";
-            }
+            //}
+            //catch (ArgumentException ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ÎØÈÁÊÀ#";
+            //}
+            //catch (Exception)
+            //{
+            //    MessageBox.Show("Íåèçâåñòíàÿ îøèáêà");
+            //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ÎØÈÁÊÀ#";
+            //}
         }
 
         /// <summary>

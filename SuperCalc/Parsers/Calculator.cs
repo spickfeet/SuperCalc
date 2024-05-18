@@ -13,7 +13,20 @@ namespace SuperCalc.Parsers
 {
     public class Calculator
     {
+        private string[] _methods = new string[] { "ЗАМЕНИТЬ(", "ВСТАВИТЬ(", "МАКС(", "МИН(", "СРЕДНЕЕ(", "СУММА(", "РАВНО(", "БОЛЬШЕ(", "МЕНЬШЕ(" };
         private MethodsFactory _methodsFactory = new MethodsFactory();
+
+        private bool ContaintMethod(string method)
+        {
+            foreach (var m in _methods)
+            {
+                if (m.Equals(method))
+                {
+                    return true;
+                }
+            }
+                return false;
+        }
 
         public string Calculate(string source)
         {
@@ -67,16 +80,18 @@ namespace SuperCalc.Parsers
 
                 if (char.IsLetter(sb.ToString()[startIndex - 1]))
                 {
+                    string methodFind = sb.ToString().Substring(startIndex, endIndex - startIndex + 1);
                     // Поиск начала метода                  
-                    while ("+-*/(.".IndexOf(sb.ToString()[startIndex]) == -1)
+                    while (!ContaintMethod(methodFind))
                     {
                         startIndex--;
+
                         if (startIndex == -1)
                         {
                             break;
                         }
+                        methodFind = sb.ToString().Substring(startIndex, endIndex - startIndex + 1);
                     }
-                    startIndex++;
                     // Поиск конца метода
                     while (true)
                     {
