@@ -1,11 +1,5 @@
 ﻿using SuperCalc.Parsers;
 using SuperCalc.Poliz;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SuperCalc.Methods
 {
@@ -16,9 +10,7 @@ namespace SuperCalc.Methods
         private Dictionary<string, Func<string, string, bool>> _constStringMethods;
         private Dictionary<string, Func<decimal, decimal, bool>> _constNumberMethods;
 
-        public MethodsFactory() => Init();
-
-        private void Init()
+        public MethodsFactory()
         {
             _numberMethods = new Dictionary<string, Func<decimal[], decimal>>
             {
@@ -48,6 +40,7 @@ namespace SuperCalc.Methods
                 { "РАВНО",  MethodsConst.EqualMethod},
             };
         }
+
         public string Use(string inputStroke)
         {
             inputStroke = inputStroke.Trim(' ');
