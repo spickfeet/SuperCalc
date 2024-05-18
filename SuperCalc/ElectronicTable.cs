@@ -76,12 +76,7 @@ namespace SuperCalc
             {
                 for (int j = 0; dataGridViewTable.ColumnCount > j; j++)
                 {
-                    if(dataGridViewTable.Rows[i].Cells[j].Value == null)
-                    {
-                        _data[i, j] = "";
-                        continue;
-                    }
-                    _data[i, j] = Convert.ToString(dataGridViewTable.Rows[i].Cells[j].Value.ToString() ?? "");
+                    _data[i, j] = Convert.ToString(dataGridViewTable.Rows[i].Cells[j].Value ?? "");
                 }
             }
         }
