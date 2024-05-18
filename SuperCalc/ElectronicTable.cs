@@ -223,8 +223,8 @@ namespace SuperCalc
                 MessageBox.Show("Координаты клеток введены неверно");
                 return;
             }
-            //try
-            //{
+            try
+            {
 
                 if (dataGridViewTable.Rows[coordinatesOperation[0] - 1].Cells[coordinatesOperation[1] - 1].Value == null)
                 {
@@ -236,17 +236,17 @@ namespace SuperCalc
                 dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value =
                  _parser.Calculate(expression);
 
-            //}
-            //catch (ArgumentException ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
-            //}
-            //catch (Exception)
-            //{
-            //    MessageBox.Show("Неизвестная ошибка");
-            //    dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
-            //}
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message);
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Неизвестная ошибка");
+                dataGridViewTable.Rows[coordinatesResult[0] - 1].Cells[coordinatesResult[1] - 1].Value = "#ОШИБКА#";
+            }
         }
 
         /// <summary>

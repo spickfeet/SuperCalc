@@ -77,7 +77,7 @@ namespace SuperCalc.Poliz
         static private double Counting(string input)
         {
             double result = 0; //Результат
-            Stack<double> temp = new Stack<double>(); //Dhtvtyysq стек для решения
+            Stack<double> temp = new Stack<double>(); // стек для решения
 
             for (int i = 0; i < input.Length; i++) //Для каждого символа в строке
             {
