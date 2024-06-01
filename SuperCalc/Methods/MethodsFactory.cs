@@ -57,6 +57,7 @@ namespace SuperCalc.Methods
                     if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"') 
                         throw new ArgumentException("Аргумент не является числом");
 
+                    expressions[i] = expressions[i].Replace(" ", "");
                     values[i] = (decimal)RPN.Calculate(expressions[i].ToString());
                 }
 
@@ -75,7 +76,7 @@ namespace SuperCalc.Methods
                     {
                         if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"')
                             throw new ArgumentException("Аргумент не является числом");
-
+                        expressions[i] = expressions[i].Replace(" ", "");
                         values[i] = RPN.Calculate(expressions[i]).ToString();
 
                         continue;
@@ -135,7 +136,7 @@ namespace SuperCalc.Methods
                 {
                     if (expressions[i][0] == '"' || expressions[i][expressions[i].Length - 1] == '"') 
                         throw new ArgumentException("Аргумент не является числом");
-
+                    expressions[i] = expressions[i].Replace(" ", "");
                     values[i] = (decimal)RPN.Calculate(expressions[i].ToString());
                 }
 

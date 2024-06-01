@@ -51,12 +51,13 @@ namespace SuperCalc.Parsers
             // Работа с числами
             else
             {
+                source = source.Replace(" ","");
                 return RPN.Calculate(source).ToString();
             }
         }
 
         public string CalculateMethods(string expression)
-        {
+        {         
             StringBuilder sb = new StringBuilder(expression);
             // Строка позволяющая пропускать лишние скобки
             string temp = sb.ToString();
