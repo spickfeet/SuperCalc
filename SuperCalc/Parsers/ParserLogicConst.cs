@@ -7,8 +7,17 @@ using System.Threading.Tasks;
 
 namespace SuperCalc.Parsers
 {
+    /// <summary>
+    /// Класс парсер логических констант.
+    /// </summary>
     public static class ParserLogicConst
     {
+        /// <summary>
+        /// Метод для расчета логического выражения.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static string Parse(string str)
         {
             List<string> logicConstList = Check(str);
@@ -44,6 +53,12 @@ namespace SuperCalc.Parsers
             return logicString;
         }
 
+        /// <summary>
+        /// Метод проверяет корректность ввода логического выражения и разбивает его на элементы списка.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static List<string> Check(string str)
         {
 
@@ -68,7 +83,12 @@ namespace SuperCalc.Parsers
             return logicConstArray.ToList();
         }
 
-
+        /// <summary>
+        /// Метод рассчитывает логическую операцию НЕ.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static string MethodNot(string str)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>() {
@@ -84,6 +104,11 @@ namespace SuperCalc.Parsers
             throw new ArgumentException("Невозможно применить метод .НЕ. к параметру " + str);
         }
 
+        /// <summary>
+        /// Метод рассчитывает логическую операцию И.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string MethodAnd(string str)
         {
             string[] stringsArray = str.Split(".И.");
@@ -94,6 +119,11 @@ namespace SuperCalc.Parsers
             return ".TRUE.";
         }
 
+        /// <summary>
+        /// Метод рассчитывает логическую операцию ИЛИ.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string MethodOr(string str)
         {
             string[] stringsArray = str.Split(".ИЛИ.");

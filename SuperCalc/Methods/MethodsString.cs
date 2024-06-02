@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace SuperCalc.Methods
 {
+    /// <summary>
+    /// Класс с методами возвращающими строку.
+    /// </summary>
     public static class MethodsString
     {
+        /// <summary>
+        /// Метод для вставки строки.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static string InsertMethod(string[] args)
         {
             if (args.Length != 3) throw new ArgumentException("Неверное количество входных данных! Ожидалось: 3.");
@@ -18,8 +27,15 @@ namespace SuperCalc.Methods
             return result;
         }
 
+        /// <summary>
+        /// Метод для замены подстроки в строке.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="Exception"></exception>
         public static string ReplaceMethod(string[] args)
-        {//используется TRUE
+        {
             if (args.Length != 4) throw new ArgumentException("Неверное количество входных данных! Ожидалось: 4.");
 
             StringBuilder stringBuilder = new StringBuilder(args[0]);

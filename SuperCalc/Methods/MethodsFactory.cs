@@ -3,6 +3,9 @@ using SuperCalc.Poliz;
 
 namespace SuperCalc.Methods
 {
+    /// <summary>
+    /// Класс для получения результата метода.
+    /// </summary>
     public class MethodsFactory
     {
         private Dictionary<string, Func<decimal[], decimal>> _numberMethods;
@@ -41,6 +44,12 @@ namespace SuperCalc.Methods
             };
         }
 
+        /// <summary>
+        /// Получение результата метода.
+        /// </summary>
+        /// <param name="inputStroke"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public string Use(string inputStroke)
         {
             inputStroke = inputStroke.Trim(' ');
@@ -146,6 +155,12 @@ namespace SuperCalc.Methods
             throw new ArgumentException("Нет метода с данным именем");
         }
 
+        /// <summary>
+        /// Метод для получения параметров метода.
+        /// </summary>
+        /// <param name="inputStroke"></param>
+        /// <param name="methodName"></param>
+        /// <returns></returns>
         private string[] GetExpressions(string inputStroke, string methodName)
         {
             string methodStroke = inputStroke;

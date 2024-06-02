@@ -7,45 +7,54 @@ using System.Threading.Tasks;
 
 namespace SuperCalc.Poliz
 {
+    /// <summary>
+    /// Класс для польской записи и её расчет.
+    /// </summary>
     public class RPN
     {
 
-        //Метод, преобразующий входную строку с выражением в постфиксную запись
+        /// <summary>
+        /// Метод, преобразующий входную строку с выражением в постфиксную запись.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         static private string GetExpression(string input)
         {
-            string output = string.Empty; //Строка для хранения выражения
-            Stack<char> operStack = new Stack<char>(); //Стек для хранения операторов
+            // Строка для хранения выражения.
+            string output = string.Empty;
+            // Стек для хранения операторов.
+            Stack<char> operStack = new Stack<char>();
 
-            for (int i = 0; i < input.Length; i++) //Для каждого символа в входной строке
+            for (int i = 0; i < input.Length; i++)
             {
-                //Разделители пропускаем
+                // Разделители пропускаем.
                 if (IsDelimeter(input[i]))
-                    continue; //Переходим к следующему символу
+                    continue;
 
-                //Если символ - цифра, то считываем все число
-                if (Char.IsDigit(input[i])) //Если цифра
+                // Если символ - цифра, то считываем все число.
+                if (Char.IsDigit(input[i]))
                 {
-                    //Читаем до разделителя или оператора, что бы получить число
+                    // Читаем до разделителя или оператора, что бы получить число.
                     while (!IsDelimeter(input[i]) && !IsOperator(input[i]))
                     {
-                        output += input[i]; //Добавляем каждую цифру числа к нашей строке
-                        i++; //Переходим к следующему символу
+                        output += input[i];
+                        i++; 
 
-                        if (i == input.Length) break; //Если символ - последний, то выходим из цикла
+                        if (i == input.Length) break;
                     }
 
-                    output += " "; //Дописываем после числа пробел в строку с выражением
-                    i--; //Возвращаемся на один символ назад, к символу перед разделителем
+                    output += " ";
+                    i--;
                 }
 
-                //Если символ - оператор
-                if (IsOperator(input[i])) //Если оператор
+                // Если символ - оператор.
+                if (IsOperator(input[i]))
                 {
-                    if (input[i] == '(') //Если символ - открывающая скобка
-                        operStack.Push(input[i]); //Записываем её в стек
-                    else if (input[i] == ')') //Если символ - закрывающая скобка
+                    if (input[i] == '(')
+                        operStack.Push(input[i]);
+                    else if (input[i] == ')')
                     {
-                        //Выписываем все операторы до открывающей скобки в строку
+                        // Выписываем все операторы до открывающей скобки в строку.
                         char s = operStack.Pop();
 
                         while (s != '(')
@@ -54,54 +63,60 @@ namespace SuperCalc.Poliz
                             s = operStack.Pop();
                         }
                     }
-                    else //Если любой другой оператор
+                    // Если любой другой оператор.
+                    else
                     {
-                        if (operStack.Count > 0) //Если в стеке есть элементы
-                            if (GetPriority(input[i]) <= GetPriority(operStack.Peek())) //И если приоритет нашего оператора меньше или равен приоритету оператора на вершине стека
-                                output += operStack.Pop().ToString() + " "; //То добавляем последний оператор из стека в строку с выражением
-
-                        operStack.Push(char.Parse(input[i].ToString())); //Если стек пуст, или же приоритет оператора выше - добавляем операторов на вершину стека
+                        if (operStack.Count > 0) 
+                            if (GetPriority(input[i]) <= GetPriority(operStack.Peek()))
+                                output += operStack.Pop().ToString() + " ";
+                        // Если стек пуст, или же приоритет оператора выше - добавляем операторов на вершину стека.
+                        operStack.Push(char.Parse(input[i].ToString()));
 
                     }
                 }
             }
 
-            //Когда прошли по всем символам, выкидываем из стека все оставшиеся там операторы в строку
+            // Когда прошли по всем символам, выкидываем из стека все оставшиеся там операторы в строку.
             while (operStack.Count > 0)
                 output += operStack.Pop() + " ";
 
-            return output; //Возвращаем выражение в постфиксной записи
+            return output;
         }
 
-        //Метод, вычисляющий значение выражения, уже преобразованного в постфиксную запись
+        /// <summary>
+        /// Метод, вычисляющий значение выражения, уже преобразованного в постфиксную запись.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         static private double Counting(string input)
         {
-            double result = 0; //Результат
-            Stack<double> temp = new Stack<double>(); // стек для решения
+            double result = 0;
+            Stack<double> temp = new Stack<double>();
 
-            for (int i = 0; i < input.Length; i++) //Для каждого символа в строке
+            for (int i = 0; i < input.Length; i++)
             {
-                //Если символ - цифра, то читаем все число и записываем на вершину стека
+                // Если символ - цифра, то читаем все число и записываем на вершину стека.
                 if (Char.IsDigit(input[i]))
                 {
                     string a = string.Empty;
 
-                    while (!IsDelimeter(input[i]) && !IsOperator(input[i])) //Пока не разделитель
+                    while (!IsDelimeter(input[i]) && !IsOperator(input[i]))
                     {
-                        a += input[i]; //Добавляем
+                        a += input[i];
                         i++;
                         if (i == input.Length) break;
                     }
-                    temp.Push(double.Parse(a, CultureInfo.InvariantCulture)); //Записываем в стек
+                    temp.Push(double.Parse(a, CultureInfo.InvariantCulture));
                     i--;
                 }
-                else if (IsOperator(input[i])) //Если символ - оператор
+                // Если символ - оператор.
+                else if (IsOperator(input[i]))
                 {
                     //Берем два последних значения из стека
                     double a = temp.Pop();
                     double b = temp.Pop();
 
-                    switch (input[i]) //И производим над ними действие, согласно оператору
+                    switch (input[i])
                     {
                         case '+': result = b + a; break;
                         case '-': result = b - a; break;
@@ -109,23 +124,41 @@ namespace SuperCalc.Poliz
                         case '/': result = b / a; break;
                         case '^': result = double.Parse(Math.Pow(double.Parse(b.ToString()), double.Parse(a.ToString())).ToString()); break;
                     }
-                    temp.Push(result); //Результат вычисления записываем обратно в стек
+                    temp.Push(result);
                 }
             }
-            return temp.Peek(); //Забираем результат всех вычислений из стека и возвращаем его
+            return temp.Peek();
         }
+
+        /// <summary>
+        /// Проверка является ли символ разделителем.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         static private bool IsDelimeter(char c)
         {
             if ((" ".IndexOf(c) != -1))
                 return true;
             return false;
         }
+
+        /// <summary>
+        /// Проверка является ли символ оператором.
+        /// </summary>
+        /// <param name="с"></param>
+        /// <returns></returns>
         static private bool IsOperator(char с)
         {
             if (("+-/*^()".IndexOf(с) != -1))
                 return true;
             return false;
         }
+
+        /// <summary>
+        /// Получить приоритет символа.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         static private byte GetPriority(char s)
         {
             switch (s)
@@ -140,11 +173,17 @@ namespace SuperCalc.Poliz
                 default: return 6;
             }
         }
+
+        /// <summary>
+        /// Метод преобразует выражение в польскую запись и решает его.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         static public double Calculate(string input)
         {
-            string output = GetExpression(input); //Преобразовываем выражение в постфиксную запись
-            double result = Counting(output); //Решаем полученное выражение
-            return result; //Возвращаем результат
+            string output = GetExpression(input);
+            double result = Counting(output);
+            return result;
         }
     }
 }

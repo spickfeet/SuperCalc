@@ -4,11 +4,19 @@ using System.Text.Json;
 
 namespace SuperCalc
 {
+    /// <summary>
+    /// Класс репозиторий с таблицей.
+    /// </summary>
     public class JSONRepository
     {
         public string PathName => _pathName;
         private string _pathName;
 
+        /// <summary>
+        /// Метод для чтения файла.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public string[,] GetData()
         {
             if (string.IsNullOrEmpty(PathName)) throw new ArgumentException("Не указан путь до файла");
@@ -31,6 +39,11 @@ namespace SuperCalc
             return data;
         }
 
+        /// <summary>
+        /// Метод для сохранения в файл.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void Save(string[,] data)
         {
             if (string.IsNullOrEmpty(PathName)) throw new ArgumentException("Не указан путь до файла");
@@ -56,6 +69,10 @@ namespace SuperCalc
             File.WriteAllText(PathName, jsonData);
         }
 
+        /// <summary>
+        /// Метод для изменения пути к файлу.
+        /// </summary>
+        /// <param name="path"></param>
         public void OnPathChanged(string path)
         {
             _pathName = path;

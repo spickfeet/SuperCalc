@@ -11,12 +11,20 @@ using System.Threading.Tasks;
 
 namespace SuperCalc.Parsers
 {
+    /// <summary>
+    /// Класс калькулятор для решения выражения.
+    /// </summary>
     public class Calculator
     {
         private string[] _methods = new string[] { "ЗАМЕНИТЬ(", "ВСТАВИТЬ(", "МАКС(", "МИН(", "СРЕДНЕЕ(", "СУММА(", "РАВНО(", "БОЛЬШЕ(", "МЕНЬШЕ(" };
         private MethodsFactory _methodsFactory = new MethodsFactory();
 
-        private bool ContaintMethod(string method)
+        /// <summary>
+        /// Метод для проверки является ли строка методом.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        private bool IsMethod(string method)
         {
             foreach (var m in _methods)
             {
@@ -28,9 +36,13 @@ namespace SuperCalc.Parsers
                 return false;
         }
 
+        /// <summary>
+        /// Главный метод для расчета выражения.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public string Calculate(string source)
         {
-
             string result;
 
             source = source.Trim(' ');
@@ -56,6 +68,11 @@ namespace SuperCalc.Parsers
             }
         }
 
+        /// <summary>
+        /// Расчет методов внутри выражения.
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public string CalculateMethods(string expression)
         {         
             StringBuilder sb = new StringBuilder(expression);
@@ -83,7 +100,7 @@ namespace SuperCalc.Parsers
                 {
                     string methodFind = sb.ToString().Substring(startIndex, endIndex - startIndex + 1);
                     // Поиск начала метода                  
-                    while (!ContaintMethod(methodFind))
+                    while (!IsMethod(methodFind))
                     {
                         startIndex--;
 

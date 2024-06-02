@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SuperCalc.Methods
 {
+    /// <summary>
+    /// Класс с методами возвращающими логические константы.
+    /// </summary>
     public static class MethodsConst
     {
         /// <summary>
@@ -39,7 +42,12 @@ namespace SuperCalc.Methods
             return arg1 > arg2;
         }
 
-
+        /// <summary>
+        /// Метод меньше для сравнения строк.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
         public static bool LessMethod(string arg1, string arg2)
         {
             if (arg1.Length > arg2.Length)
@@ -53,16 +61,34 @@ namespace SuperCalc.Methods
             return arg1.CompareTo(arg2) < 0;
         }
 
+        /// <summary>
+        /// Метод меньше для сравнения чисел.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
         public static bool LessMethod(decimal arg1, decimal arg2)
         {
             return arg1 < arg2;
         }
 
+        /// <summary>
+        /// Метод равенство для сравнения строк.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
         public static bool EqualMethod(string arg1, string arg2)
         {
             return arg1 == arg2;
         }
 
+        /// <summary>
+        /// Метод равенство для сравнения чисел.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <returns></returns>
         public static bool EqualMethod(decimal arg1, decimal arg2)
         {
             return arg1 == arg2;
